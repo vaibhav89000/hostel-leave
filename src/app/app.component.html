@@ -1,3 +1,41 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+  <ion-menu side="start" menuId="m1">
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>
+              Hostel Leave
+          </ion-title>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content>
+          <ion-list>
+            <ion-menu-toggle menu="m1">
+              <ion-item lines="none" [routerLink]="['register']">
+                <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>
+                <ion-label>Register</ion-label>
+              </ion-item>
+            </ion-menu-toggle>
+
+
+            <ion-menu-toggle menu="m1">
+              <ion-item lines="none" [routerLink]="['users']"> 
+                <ion-icon name="body-outline" slot="start"></ion-icon>
+                <ion-label>Users</ion-label>
+              </ion-item>
+            </ion-menu-toggle>
+
+
+            <ion-menu-toggle menu="m1">
+              <ion-item lines="none" button>
+                <ion-icon name="exit" slot="start"></ion-icon>
+                <ion-label>Logout</ion-label>
+              </ion-item>
+            </ion-menu-toggle>
+
+
+          </ion-list>
+      </ion-content>
+  </ion-menu>
+  <ion-router-outlet main></ion-router-outlet>
 </ion-app>

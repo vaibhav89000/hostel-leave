@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+        <ion-menu-button menu="m1"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Users</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  
+  <ion-card class="card">
+    <ion-card-header>
+      Users
+    </ion-card-header>
+
+    <ion-card-content>
+
+      <div class="table-responsive" >
+        <table id="example" class="table table-hover table-bordered border-top-0 border-bottom-0" style="width:100%">
+          <thead>
+            <tr class="border-bottom-0">
+              <th scope="col">#</th>
+              <th scope="col">Admission Number</th>
+              <th scope="col">Name</th>
+              <th scope="col">Year</th>
+              <th scope="col">Hostel</th>
+              <th scope="col">Room Number</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of userDetails; index as i">
+              <th scope="row">{{ i + 1 }}</th>
+              <td>
+                {{ user.admissionNumber }}
+              </td>
+              <td>{{ user.firstName }}</td>
+              <td>{{ user.year}}</td>
+              <td>{{ user.hostel}}</td>
+              <td>{{ user.roomNumber}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+
+
+    </ion-card-content>
+  </ion-card>
+
+
+
+</ion-content>
