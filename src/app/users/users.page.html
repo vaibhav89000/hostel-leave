@@ -26,6 +26,7 @@
               <th scope="col">Year</th>
               <th scope="col">Hostel</th>
               <th scope="col">Room Number</th>
+              <th scope="col">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -34,10 +35,11 @@
               <td>
                 {{ user.admissionNumber }}
               </td>
-              <td>{{ user.firstName }}</td>
+              <td>{{ user.fullName }}</td>
               <td>{{ user.year}}</td>
               <td>{{ user.hostel}}</td>
               <td>{{ user.roomNumber}}</td>
+              <td><ion-icon name="pencil-sharp" (click)="editUser(user.admissionNumber)"></ion-icon></td>
             </tr>
           </tbody>
         </table>

@@ -14,6 +14,7 @@ import firebase from 'firebase/app';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { HttpClientModule } from '@angular/common/http';
 
 firebase.initializeApp(firebaseConfig);
 
@@ -24,7 +25,8 @@ firebase.initializeApp(firebaseConfig);
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireAuthModule,
      AppRoutingModule, ReactiveFormsModule,
-     NgbModule],
+     NgbModule,
+     HttpClientModule],
   providers: [
     StatusBar,
     SplashScreen,

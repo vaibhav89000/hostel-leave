@@ -1,6 +1,7 @@
 import { preserveWhitespacesDefault } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, LoadingController, NavController } from '@ionic/angular';
 import {UsersService} from '../services/users.service';
 @Component({
@@ -14,11 +15,14 @@ export class RegisterPage implements OnInit {
   errorMessage: any;
   successMessage: any;
   formsubmitted: any;
+  id: any;
 
   constructor(private loadingCtrl: LoadingController,
     private alert : AlertController,
     private userservice: UsersService,
-    private navCtrl: NavController) { 
+    private navCtrl: NavController,
+    private router:Router,
+    private route:ActivatedRoute) { 
       this.formsubmitted = false;
     }
 
@@ -26,16 +30,44 @@ export class RegisterPage implements OnInit {
     this.formsubmitted = false;
 
     this.form = new FormGroup({
-      "firstName": new FormControl('',[Validators.required]),
-      "middleName": new FormControl(''),
-      "lastName": new FormControl(''),
+      "fullName": new FormControl('',[Validators.required]),
       "admissionNumber": new FormControl('',[Validators.required]),
       "year": new FormControl('',[Validators.required]),
       "gender": new FormControl('',[Validators.required]),
       "hostel": new FormControl('',[Validators.required]),
       "roomNumber": new FormControl('',[Validators.required]),
+      "emailId": new FormControl('',[Validators.required]),
+      "phoneNumber": new FormControl('',[Validators.required]),
+    });
+
+    this.route.params.subscribe((params)=>{
+      this.id = params['id'];
+      if(this.id !== undefined){
+       this.userservice.userExist(this.id).then((User)=>{
+        
+        this.formset(User);
+       },(err)=>{
+        console.log(err);
+       });
+      }
+    });
+
+    
+  }
+
+  formset(User){
+    this.form = new FormGroup({
+      "fullName": new FormControl(User.fullName,[Validators.required]),
+      "admissionNumber": new FormControl(User.admissionNumber,[Validators.required]),
+      "year": new FormControl(User.year,[Validators.required]),
+      "gender": new FormControl(User.gender,[Validators.required]),
+      "hostel": new FormControl(User.hostel,[Validators.required]),
+      "roomNumber": new FormControl(User.roomNumber,[Validators.required]),
+      "emailId": new FormControl(User.emailId,[Validators.required]),
+      "phoneNumber": new FormControl(User.phoneNumber,[Validators.required]),
     });
   }
+
 
   register(value){
 
@@ -45,14 +77,14 @@ export class RegisterPage implements OnInit {
     }
 
     let formdata = {
-      firstName: this.form.get('firstName').value.toLowerCase(),
-      middleName: this.form.get('middleName').value.toLowerCase(),
-      lastName: this.form.get('lastName').value.toLowerCase(),
+      fullName: this.form.get('fullName').value.toLowerCase(),
       admissionNumber: this.form.get('admissionNumber').value.toLowerCase(),
       year: this.form.get('year').value,
       gender: this.form.get('gender').value,
       hostel: this.form.get('hostel').value,
-      roomNumber: this.form.get('roomNumber').value
+      roomNumber: this.form.get('roomNumber').value,
+      emailId: this.form.get('emailId').value,
+      phoneNumber: this.form.get('phoneNumber').value,
     };
 
     this.loadingCtrl
@@ -60,7 +92,28 @@ export class RegisterPage implements OnInit {
       .then(loadingEl => {
         loadingEl.present();
 
-      this.userservice.checkRegistered(formdata.admissionNumber)
+        if(this.id){
+          this.userservice.editUser(formdata)
+        .then(res => {
+          loadingEl.dismiss();
+          console.log(res);
+          this.form.reset();
+          this.errorMessage = "";
+          this.successMessage = "User details edited successfully";
+          this.showAlert('Success!',this.successMessage);
+          this.formsubmitted = 
+          this.router.navigate(['../../','register']);
+          // this.navCtrl.navigateForward('login');
+        }, err => {
+          loadingEl.dismiss();
+          console.log(err);
+          this.errorMessage = err.message;
+          this.showAlert('Error',this.errorMessage);
+          this.successMessage = "";
+        })
+        }
+        else{
+          this.userservice.checkRegistered(formdata.admissionNumber)
       .then((res)=>{
 
         this.userservice.registerUser(formdata)
@@ -88,6 +141,8 @@ export class RegisterPage implements OnInit {
           this.successMessage = "";
         console.log('err',err);
       })
+        }
+
         });
   }
 

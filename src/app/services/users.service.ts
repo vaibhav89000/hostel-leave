@@ -30,7 +30,6 @@ export class UsersService {
       const dbRef = firebase.database().ref('/users/'+admissionNumber);
 
       dbRef.once('value',(data)=>{
-        console.log(data.val());
         if(data.val()!==null){
           reject({'message': 'User with this admission number already exist.'});
         }
@@ -54,5 +53,33 @@ export class UsersService {
         }
       })
     })
+  }
+
+  userExist(admissionNumber){
+    return new Promise((resolve,reject)=>{
+      const dbRef = firebase.database().ref('/users/'+admissionNumber);
+
+      dbRef.once('value',(data)=>{
+        if(data.val()===null){
+          reject({'message': 'User with this admission number already exist.'});
+        }
+        else{
+          resolve(data.val());
+        }
+      })
+    })
+  }
+
+  editUser(user){
+    return new Promise((resolve, reject) => {
+      firebase.database().ref('users/').child(user.admissionNumber).set({
+        ...user
+      }).then(()=>{
+        resolve();
+      }).catch((err)=>{
+        reject(err);
+      });
+
+  });
   }
 }

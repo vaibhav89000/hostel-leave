@@ -1,5 +1,7 @@
 {
   "name": "hostel_leave",
-  "integrations": {},
+  "integrations": {
+    "capacitor": {}
+  },
   "type": "angular"
 }

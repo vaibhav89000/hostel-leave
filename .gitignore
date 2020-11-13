@@ -13,6 +13,11 @@ Thumbs.db
 UserInterfaceState.xcuserstate
 $RECYCLE.BIN/
 
+
+/src/environments/*
+/src/environments/environment.ts
+/src/environments/environment.prod.ts
+
 *.log
 log.txt
 npm-debug.log*
@@ -30,3 +35,4 @@ npm-debug.log*
 /plugins
 /www
 /src/app/firebase.ts
+
