@@ -55,7 +55,7 @@ export class UsersPage implements OnInit {
   }
 
   editUser(id){
-    this.router.navigate(['../','register',id]);
+    this.router.navigate(['admin','register',id]);
   }
 
 }

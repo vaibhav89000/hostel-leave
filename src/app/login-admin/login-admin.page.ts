@@ -69,7 +69,7 @@ export class LoginAdminPage implements OnInit {
       //   this.showAlert('Error',this.errorMessage);
       //   console.log('err');
       // })
-      this.authService.loginadmin(value,'Admin').subscribe((res) =>{
+      this.authService.login(value,'Admin').subscribe((res) =>{
         // console.log('res',res);
         // console.log('I am logged in',res);
 
@@ -78,7 +78,7 @@ export class LoginAdminPage implements OnInit {
           loadingEl.dismiss();
           this.form.reset();
           this.showAlert('Success!','You are logged In');
-          this.navCtrl.navigateForward('users');
+          this.navCtrl.navigateForward('/admin/users');
       },(err)=>{
         loadingEl.dismiss();
         console.log('err',err);

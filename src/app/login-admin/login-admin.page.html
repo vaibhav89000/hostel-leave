@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>loginAdmin</ion-title>
+    <ion-title>Login Admin</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -20,7 +20,7 @@
             Login as Client
           </ion-label> -->
           <h1>
-            Login as Client
+            Login as Admin
           </h1>
         </ion-col>
       </ion-row>
@@ -80,7 +80,7 @@
 
         <ion-col size-sm="6" size-xs="12" offset-sm="3">
           <p class="go-to-register">
-            Want to login as Student? <a >Login</a>
+            Want to login as Student? <a [routerLink]="['../../../','student','login-student']">Login</a>
           </p>
         </ion-col>
 

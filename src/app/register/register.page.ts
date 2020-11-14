@@ -101,8 +101,8 @@ export class RegisterPage implements OnInit {
           this.errorMessage = "";
           this.successMessage = "User details edited successfully";
           this.showAlert('Success!',this.successMessage);
-          this.formsubmitted = 
-          this.router.navigate(['../../','register']);
+          this.formsubmitted = false;
+          // this.router.navigate(['../../','register']);
           // this.navCtrl.navigateForward('login');
         }, err => {
           loadingEl.dismiss();

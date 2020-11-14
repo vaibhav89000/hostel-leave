@@ -21,6 +21,7 @@ export class AuthGuardService implements CanActivate{
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     const expectedRole = route.data.role;
+    console.log(this.router.url);
     console.log('expected',expectedRole);
     return this.authenticationService.userISAuthenticated.pipe(
       take(1),
@@ -42,13 +43,19 @@ export class AuthGuardService implements CanActivate{
                 return of(true);
               }
               else{
+                // if(expectedRole === 'Admin'){
+                //   this.router.navigate(['student-dashboard']);
+                // }
+                // else{
+                //   this.router.navigate(['users']);
+                // }
                 return of(false);
               }
             })
           )
         }
         else{
-          this.router.navigate(['login-admin']);
+          this.router.navigate(['admin/login-admin']);
           return of(false);
         }
       }),

@@ -74,7 +74,7 @@ export class AuthserviceService implements OnDestroy{
     } ));
   }
 
-  loginadmin(user,role){
+  login(user,role){
     
     this.role = role;
     return this.http.post<AuthResponseData>(
