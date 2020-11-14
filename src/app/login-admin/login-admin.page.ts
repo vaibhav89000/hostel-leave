@@ -69,9 +69,9 @@ export class LoginAdminPage implements OnInit {
       //   this.showAlert('Error',this.errorMessage);
       //   console.log('err');
       // })
-      this.authService.loginadmin(value).subscribe((res) =>{
-        console.log('res',res);
-        console.log('I am logged in',res);
+      this.authService.loginadmin(value,'Admin').subscribe((res) =>{
+        // console.log('res',res);
+        // console.log('I am logged in',res);
 
           this.errorMessage = "";
           
@@ -81,6 +81,7 @@ export class LoginAdminPage implements OnInit {
           this.navCtrl.navigateForward('users');
       },(err)=>{
         loadingEl.dismiss();
+        console.log('err',err);
         let error =err.error.error.errors;
         Object.keys(error).forEach(key=>{
 

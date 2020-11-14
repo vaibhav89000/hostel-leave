@@ -10,12 +10,18 @@ const routes: Routes = [
   {
     path: 'register',
     loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule),
-    canActivate:[AuthGuardService]
+    canActivate:[AuthGuardService],
+    data: {
+      role: 'Admin'
+    }
   },
   {
     path: 'users',
     loadChildren: () => import('./users/users.module').then( m => m.UsersPageModule),
-    canActivate:[AuthGuardService]
+    canActivate:[AuthGuardService],
+    data: {
+      role: 'Admin'
+    }
   },
   {
     path: 'login-admin',

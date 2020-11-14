@@ -24,14 +24,30 @@ interface AuthResponseData {
 })
 export class AuthserviceService implements OnDestroy{
 
-  // public userSubject: BehaviorSubject<boolean>;
-  // public loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-
   private _user = new BehaviorSubject<User>(null);
   private activeLogoutTimer: any;
+  role: any;
 
   constructor(private http: HttpClient) { 
-    // this.userSubject = new BehaviorSubject<boolean>(null);
+    
+  }
+
+  Rolecheck(expectedRole) {
+    return this._user.asObservable().pipe(map(user => 
+      {
+        // console.log('user',user);
+        if(user){
+          if(user['role'] && user['role'] !== expectedRole){
+            return false;
+          }
+          // console.log('user',user);
+          return !!user.token;
+        }
+        else{
+          return false;
+        }
+      }
+      ));
   }
 
   get userISAuthenticated() {
@@ -58,8 +74,9 @@ export class AuthserviceService implements OnDestroy{
     } ));
   }
 
-  loginadmin(user){
+  loginadmin(user,role){
     
+    this.role = role;
     return this.http.post<AuthResponseData>(
       `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.apiKey}`,
       {
@@ -94,12 +111,15 @@ export class AuthserviceService implements OnDestroy{
   }
 
   private setUserData(userData: AuthResponseData){
+    
     const expirationTime = new Date(new Date().getTime() + (+userData.expiresIn * 1000));
     const user = new User(
       userData.localId, 
       userData.email,
        userData.idToken,
-       expirationTime)
+       expirationTime,
+       this.role)
+      //  console.log('user',user);
         this._user.next(user);
 
              this.autoLogout(user.tokenDuration);
@@ -108,7 +128,8 @@ export class AuthserviceService implements OnDestroy{
                userData.localId,
                 userData.idToken,
                  expirationTime.toISOString(),
-                 userData.email
+                 userData.email,
+                 this.role
              );
   }
 
@@ -124,6 +145,7 @@ export class AuthserviceService implements OnDestroy{
           token: string;
           tokenExpirationDate: string;
           email: string;
+          role: string
         }
         const expirationTime = new Date(parseData.tokenExpirationDate);
         if(expirationTime <= new Date()){
@@ -133,7 +155,8 @@ export class AuthserviceService implements OnDestroy{
           parseData.userId,
           parseData.email,
           parseData.token,
-          expirationTime
+          expirationTime,
+          parseData.role
           );
           return user;
       }),
@@ -153,13 +176,15 @@ export class AuthserviceService implements OnDestroy{
     userId: string,
     token: string,
     tokenExpirationDate: string,
-    email: string
+    email: string,
+    role: string
   ){
     const data = JSON.stringify({
       userId: userId,
        token: token,
         tokenExpirationDate: tokenExpirationDate,
-      email: email
+      email: email,
+      role: role
     });
     Plugins.Storage.set({key : 'authData',value: data})
   };
