@@ -12,7 +12,11 @@ const routes: Routes = [
   {
       path: 'login-student',
       loadChildren: () => import('../login-student/login-student.module').then( m => m.LoginStudentPageModule)
-    },
+  },
+  {
+    path: 'student-view-application',
+    loadChildren: () => import('../student-view-application/student-view-application.module').then( m => m.StudentViewApplicationPageModule)
+  },
 ];
 
 @NgModule({

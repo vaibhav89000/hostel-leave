@@ -79,7 +79,7 @@ export class LoginStudentPage implements OnInit {
             loadingEl.dismiss();
             this.form.reset();
             this.showAlert('Success!','You are logged In');
-            this.navCtrl.navigateForward('/student/application');
+            this.navCtrl.navigateForward('/student/student-view-application');
         },(err)=>{
           loadingEl.dismiss();
           console.log('err',err);
