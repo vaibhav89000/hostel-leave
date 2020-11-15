@@ -1,5 +1,5 @@
 <ion-app>
-  <ion-menu *ngIf="role" side="start" menuId="m1" contentId="main">
+  <ion-menu  side="start" menuId="m1" contentId="main">
       <ion-header>
         <ion-toolbar>
           <ion-title>
@@ -10,22 +10,13 @@
 
       <ion-content>
           <ion-list>
-            <ion-menu-toggle menu="m1">
-              <ion-item lines="none" [routerLink]="['admin','register']">
+            <ion-menu-toggle menu="m1" *ngFor="let p of pages">
+              <ion-item lines="none" [routerLink]="p.page">
                 <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>
-                <ion-label>Register</ion-label>
+                <ion-label>{{p.title}}</ion-label>
               </ion-item>
             </ion-menu-toggle>
-
-
-            <ion-menu-toggle menu="m1">
-              <ion-item lines="none" [routerLink]="['admin','users']"> 
-                <ion-icon name="body-outline" slot="start"></ion-icon>
-                <ion-label>Users</ion-label>
-              </ion-item>
-            </ion-menu-toggle>
-
-
+            
             <ion-menu-toggle menu="m1">
               <ion-item lines="none" button>
                 <ion-icon name="exit" slot="start"></ion-icon>
@@ -38,38 +29,5 @@
       </ion-content>
   </ion-menu>
 
-  <ion-menu *ngIf="!role" side="start" menuId="m2" contentId="main">
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>
-            Hostel Leave
-        </ion-title>
-      </ion-toolbar>
-    </ion-header>
-
-    <ion-content>
-        <ion-list>
-          <ion-menu-toggle menu="m2">
-            <ion-item lines="none" [routerLink]="['admin','register']">
-              <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>
-              <ion-label>Register</ion-label>
-            </ion-item>
-          </ion-menu-toggle>
-
-
-      
-
-
-          <ion-menu-toggle menu="m2">
-            <ion-item lines="none" button>
-              <ion-icon name="exit" slot="start"></ion-icon>
-              <ion-label (click)="logout()">Logout</ion-label>
-            </ion-item>
-          </ion-menu-toggle>
-
-
-        </ion-list>
-    </ion-content>
-</ion-menu>
   <ion-router-outlet id="main"></ion-router-outlet>
 </ion-app>

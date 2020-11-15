@@ -19,7 +19,7 @@ export class AppComponent implements OnInit, OnDestroy{
   private roleSub: Subscription;
 
   role: any;
-
+  pages: any;
   constructor(
     private platform: Platform,
     
@@ -39,13 +39,26 @@ export class AppComponent implements OnInit, OnDestroy{
   }
 
   ngOnInit(){
+    
     this.authService.roleMenu.subscribe(role => {
       console.log('role',role);
       this.role = role;
+      if(role){
+        this.pages = [
+          { title: "Register", page: ['admin','register']},
+          { title: "User", page: ['admin','users']}
+        ];
+      }
+      else{
+        console.log('checking');
+        this.pages = [
+          { title: "Application", page: ['student','student-view-application']}
+        ];
+      }
     })
 
     this.authSub = this.authService.userISAuthenticated.subscribe(isAuth => {
-      
+
       if(!isAuth && this.previousAuthState !== isAuth){
         this.router.navigate(["admin/login-admin"]);
       }
@@ -55,6 +68,7 @@ export class AppComponent implements OnInit, OnDestroy{
 
   logout(){
     console.log('logged out');
+    this.pages = [];
     this.authService.logOut();
   }
   
