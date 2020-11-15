@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { StudentPage } from './student.page';
-
+import {AuthGuardService} from '../../app/services/auth-guard.service';
 const routes: Routes = [
   {
     path: '',
@@ -15,7 +15,11 @@ const routes: Routes = [
   },
   {
     path: 'student-view-application',
-    loadChildren: () => import('../student-view-application/student-view-application.module').then( m => m.StudentViewApplicationPageModule)
+    loadChildren: () => import('../student-view-application/student-view-application.module').then( m => m.StudentViewApplicationPageModule),
+    canActivate:[AuthGuardService],
+    data: {
+      role: 'Student'
+    }
   },
 ];
 

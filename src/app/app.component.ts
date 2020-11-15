@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
-import { Platform } from '@ionic/angular';
+import { MenuController, Platform } from '@ionic/angular';
 import {Plugins, Capacitor} from '@capacitor/core';
 import {AuthserviceService} from '../app/services/authservice.service';
 import { Router } from '@angular/router';
@@ -16,6 +16,9 @@ export class AppComponent implements OnInit, OnDestroy{
   
   private authSub: Subscription;
   private previousAuthState = false;
+  private roleSub: Subscription;
+
+  role: any;
 
   constructor(
     private platform: Platform,
@@ -36,7 +39,14 @@ export class AppComponent implements OnInit, OnDestroy{
   }
 
   ngOnInit(){
+    
     this.authSub = this.authService.userISAuthenticated.subscribe(isAuth => {
+      if(isAuth){
+        this.roleSub = this.authService.roleMenu.subscribe(role => {
+          // console.log('role',role);
+          this.role = role;
+        })
+      }
       if(!isAuth && this.previousAuthState !== isAuth){
         this.router.navigate(["admin/login-admin"]);
       }
@@ -52,6 +62,9 @@ export class AppComponent implements OnInit, OnDestroy{
   ngOnDestroy(){
     if(this.authSub){
       this.authSub.unsubscribe();
+    }
+    if(this.roleSub){
+      this.roleSub.unsubscribe();
     }
   }
 }

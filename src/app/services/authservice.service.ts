@@ -190,6 +190,22 @@ export class AuthserviceService implements OnDestroy{
   };
 
   
-
+  get roleMenu() {
+    return this._user.asObservable().pipe(map(user => 
+      {
+        if(user){
+          if(user.role === 'Admin'){
+            return true;
+          }
+          else{
+            return false;
+          }
+        }
+        else{
+          return false;
+        }
+      }
+      ));
+  }
 
 }
