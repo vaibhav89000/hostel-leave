@@ -21,8 +21,8 @@ export class AuthGuardService implements CanActivate{
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     const expectedRole = route.data.role;
-    console.log(this.router.url);
-    console.log('expected',expectedRole);
+    // console.log(this.router.url);
+    // console.log('expected',expectedRole);
     return this.authenticationService.userISAuthenticated.pipe(
       take(1),
       switchMap(isAuthenticated => {

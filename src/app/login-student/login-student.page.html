@@ -24,14 +24,14 @@
         <ion-col size-sm="6" offset-sm="3">
           <ion-list>
             <ion-item>
-              <ion-label position="floating" style="padding-bottom: 10px;">Email</ion-label>
-              <ion-input type="text" formControlName="email"></ion-input>
+              <ion-label position="floating" style="padding-bottom: 10px;">Admission Number</ion-label>
+              <ion-input type="text" formControlName="admissionNumber"></ion-input>
             </ion-item>
             <ion-item lines="none">
               <div class="validation-errors">
-                <ng-container *ngFor="let validation of validation_messages.email">
+                <ng-container *ngFor="let validation of validation_messages.admissionNumber">
                   <div class="error-message" color="danger"
-                    *ngIf="form.get('email').hasError(validation.type) && (form.get('email').dirty || form.get('email').touched)">
+                    *ngIf="form.get('admissionNumber').hasError(validation.type) && (form.get('admissionNumber').dirty || form.get('admissionNumber').touched)">
                     <ion-text color="danger">{{ validation.message }}</ion-text>
                   </div>
                 </ng-container>

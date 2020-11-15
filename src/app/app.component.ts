@@ -39,14 +39,13 @@ export class AppComponent implements OnInit, OnDestroy{
   }
 
   ngOnInit(){
-    
+    this.authService.roleMenu.subscribe(role => {
+      console.log('role',role);
+      this.role = role;
+    })
+
     this.authSub = this.authService.userISAuthenticated.subscribe(isAuth => {
-      if(isAuth){
-        this.roleSub = this.authService.roleMenu.subscribe(role => {
-          // console.log('role',role);
-          this.role = role;
-        })
-      }
+      
       if(!isAuth && this.previousAuthState !== isAuth){
         this.router.navigate(["admin/login-admin"]);
       }
@@ -58,6 +57,7 @@ export class AppComponent implements OnInit, OnDestroy{
     console.log('logged out');
     this.authService.logOut();
   }
+  
 
   ngOnDestroy(){
     if(this.authSub){

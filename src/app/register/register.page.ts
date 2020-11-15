@@ -2,6 +2,7 @@ import { preserveWhitespacesDefault } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { callInstance } from '@ionic-native/core/decorators/common';
 import { AlertController, LoadingController, NavController } from '@ionic/angular';
 import {UsersService} from '../services/users.service';
 @Component({
@@ -27,6 +28,7 @@ export class RegisterPage implements OnInit {
     }
 
   ngOnInit() {
+    console.log('register');
     this.formsubmitted = false;
 
     this.form = new FormGroup({
@@ -102,8 +104,8 @@ export class RegisterPage implements OnInit {
           this.successMessage = "User details edited successfully";
           this.showAlert('Success!',this.successMessage);
           this.formsubmitted = false;
-          // this.router.navigate(['../../','register']);
-          // this.navCtrl.navigateForward('login');
+          
+        
         }, err => {
           loadingEl.dismiss();
           console.log(err);
@@ -126,6 +128,13 @@ export class RegisterPage implements OnInit {
           this.showAlert('Success!',this.successMessage);
           this.formsubmitted = false
           // this.navCtrl.navigateForward('login');
+          this.userservice.signUp(formdata.emailId,formdata.admissionNumber).then(res => {
+            // this.successMessage = "User Id created succesfully";
+            // this.showAlert('Success!',this.successMessage);
+          },err => {
+            this.errorMessage = err.message;
+          this.showAlert('Error',this.errorMessage);
+          })
         }, err => {
           loadingEl.dismiss();
           console.log(err);

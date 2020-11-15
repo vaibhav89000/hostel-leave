@@ -5,6 +5,7 @@ import 'firebase/database';
 import { AngularFireAuth } from '@angular/fire/auth';
 import 'firebase/auth';
 
+
 @Injectable({
   providedIn: 'root' 
 })
@@ -82,4 +83,73 @@ export class UsersService {
 
   });
   }
+
+  getProfile(){
+    // return new Promise((resolve,reject)=>{
+    //   const dbRef = firebase.database().ref('/users/'+admissionNumber);
+
+    //   dbRef.once('value',(data)=>{
+    //     if(data.val()===null){
+    //       reject({'message': 'User with this admission number already exist.'});
+    //     }
+    //     else{
+    //       resolve(data.val());
+    //     }
+    //   })
+    // })
+  }
+
+  signUp(emailId,password){
+    return new Promise((resolve,reject)=>{
+      firebase.auth().createUserWithEmailAndPassword(emailId, password)
+      .then(res =>{
+        resolve();
+      },err=>{
+        reject();
+      })
+      .catch(err=>{
+        reject();
+      })
+    })
+  }
+
+  emailGet(admissionNumber){
+    return new Promise((resolve,reject)=>{
+      const dbRef = firebase.database().ref('/users/'+admissionNumber);
+
+      dbRef.once('value',(data)=>{
+        if(data.val()===null){
+          reject({'message': 'User does not exist already exist.'});
+        }
+        else{
+          // console.log(data.val());
+          resolve(data.val());
+        }
+      })
+
+    })
+  }
+
+
+  adminEmailCheck(localId){
+    return new Promise((resolve,reject)=>{
+      const dbRef = firebase.database().ref('/admins/'+localId);
+
+      dbRef.once('value',(data)=>{
+        if(data.val()===null){
+          reject({'message': 'User does not exist.'});
+        }
+        else{
+          console.log(data.val());
+          resolve(data.val());
+        }
+      })
+
+    })
+  }
+
+
+
+
+
 }

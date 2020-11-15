@@ -21,6 +21,14 @@ const routes: Routes = [
       role: 'Student'
     }
   },
+  {
+    path: 'student-profile',
+    loadChildren: () => import('../student-profile/student-profile.module').then( m => m.StudentProfilePageModule),
+    canActivate:[AuthGuardService],
+    data: {
+      role: 'Student'
+    }
+  },
 ];
 
 @NgModule({

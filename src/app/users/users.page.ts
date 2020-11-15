@@ -18,6 +18,11 @@ export class UsersPage implements OnInit {
     private router: Router) { }
 
   ngOnInit() {
+    console.log('users');
+    // this.fetchUsers();
+  }
+  ionViewDidEnter (){
+    console.log('check');
     this.fetchUsers();
   }
 
@@ -30,6 +35,7 @@ export class UsersPage implements OnInit {
         this.userservice.getUsers().then((res)=>{
           let users = res;
           loadingEl.dismiss();
+          this.userDetails = [];
           Object.keys(users).forEach(key => {
             // console.log(users[key]);
             this.userDetails.push(users[key]);

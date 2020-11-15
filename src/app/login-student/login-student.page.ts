@@ -3,6 +3,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, LoadingController, NavController } from '@ionic/angular';
 import {AuthserviceService} from '../services/authservice.service';
+import { UsersService } from '../services/users.service';
+
 
 @Component({
   selector: 'app-login-student',
@@ -15,15 +17,15 @@ export class LoginStudentPage implements OnInit {
   errorMessage: string = '';
   constructor(private navCtrl: NavController,
     private authService: AuthserviceService,
+    private UsersService: UsersService,
     private formBuilder: FormBuilder,
     private loadingCtrl: LoadingController,
     private alert : AlertController) { }
 
     ngOnInit() {
       this.form = this.formBuilder.group({
-        email: new FormControl('', Validators.compose([
+        admissionNumber: new FormControl('', Validators.compose([
           Validators.required,
-          Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
         ])),
         password: new FormControl('', Validators.compose([
           Validators.minLength(5),
@@ -34,9 +36,9 @@ export class LoginStudentPage implements OnInit {
   
   
     validation_messages = {
-      'email': [
-        { type: 'required', message: 'Email is required.' },
-        { type: 'pattern', message: 'Please enter a valid email.' }
+      'admissionNumber': [
+        { type: 'required', message: 'admissionNumber is required.' },
+        { type: 'pattern', message: 'Please enter a valid admissionNumber.' }
       ],
       'password': [
         { type: 'required', message: 'Password is required.' },
@@ -44,55 +46,46 @@ export class LoginStudentPage implements OnInit {
       ]
     };
   
-    loginUser(value) {
-  
+    loginUser(user) {
+      
       this.loadingCtrl
         .create({ keyboardClose: true, message: 'Logging in...' })
         .then(loadingEl => { 
           loadingEl.present();
-  
-        //   this.authService.loginadmin(value)
-        // .then(res => {
-        //   // console.log(res);
-        //   console.log('I am logged in',res);
-  
-        //     this.errorMessage = "";
-            
-        //     loadingEl.dismiss();
-        //     this.form.reset();
-        //     this.showAlert('Success!','You are logged In');
-        //     this.navCtrl.navigateForward('users');
-            
-  
-        // }, err => {
-        //   loadingEl.dismiss();
-        //   this.errorMessage = err.message;
-        //   this.showAlert('Error',this.errorMessage);
-        //   console.log('err');
-        // })
-        this.authService.login(value,'Student').subscribe((res) =>{
-          // console.log('res',res);
-          // console.log('I am logged in',res);
-  
-            this.errorMessage = "";
-            
+        
+        this.UsersService.emailGet(user.admissionNumber).then(res =>{
+            // console.log('res',res);
+
+            let User ={
+              email: res['emailId'],
+              password: this.form.get('password').value
+            }
+            // console.log('User',User);
+            this.authService.login(User,'Student').subscribe((res) =>{
+
+              this.errorMessage = "";
+              
+              loadingEl.dismiss();
+              this.form.reset();
+              this.showAlert('Success!','You are logged In');
+              this.navCtrl.navigateForward('/student/student-view-application');
+          },(err)=>{
             loadingEl.dismiss();
-            this.form.reset();
-            this.showAlert('Success!','You are logged In');
-            this.navCtrl.navigateForward('/student/student-view-application');
-        },(err)=>{
+            console.log('err',err);
+            let error =err.error.error.errors;
+            error.forEach(element => {
+              this.errorMessage = element['message'];
+            this.showAlert('Error',this.errorMessage);
+            });
+    
+          })
+        },err=>{
           loadingEl.dismiss();
           console.log('err',err);
-          let error =err.error.error.errors;
-          Object.keys(error).forEach(key=>{
-  
-          })
-          error.forEach(element => {
-            this.errorMessage = element['message'];
-          this.showAlert('Error',this.errorMessage);
-          });
-  
+          this.showAlert('Failed!',err.message);
         })
+        
+        
   
         });
     }

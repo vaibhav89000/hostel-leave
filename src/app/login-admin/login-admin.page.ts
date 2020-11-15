@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, LoadingController, NavController } from '@ionic/angular';
 import {AuthserviceService} from '../services/authservice.service';
+import { UsersService } from '../services/users.service';
 @Component({
   selector: 'app-login-admin',
   templateUrl: './login-admin.page.html',
@@ -12,11 +13,14 @@ export class LoginAdminPage implements OnInit {
 
   form: FormGroup;
   errorMessage: string = '';
-  constructor(private navCtrl: NavController,
+  constructor(
     private authService: AuthserviceService,
+    private navCtrl: NavController,
     private formBuilder: FormBuilder,
+    private userservice: UsersService,
     private loadingCtrl: LoadingController,
-    private alert : AlertController) { }
+    private alert : AlertController,
+    private router: Router) { }
 
   ngOnInit() {
     this.form = this.formBuilder.group({
@@ -50,35 +54,23 @@ export class LoginAdminPage implements OnInit {
       .then(loadingEl => { 
         loadingEl.present();
 
-      //   this.authService.loginadmin(value)
-      // .then(res => {
-      //   // console.log(res);
-      //   console.log('I am logged in',res);
-
-      //     this.errorMessage = "";
-          
-      //     loadingEl.dismiss();
-      //     this.form.reset();
-      //     this.showAlert('Success!','You are logged In');
-      //     this.navCtrl.navigateForward('users');
-          
-
-      // }, err => {
-      //   loadingEl.dismiss();
-      //   this.errorMessage = err.message;
-      //   this.showAlert('Error',this.errorMessage);
-      //   console.log('err');
-      // })
+      
       this.authService.login(value,'Admin').subscribe((res) =>{
-        // console.log('res',res);
-        // console.log('I am logged in',res);
-
           this.errorMessage = "";
-          
+          console.log(res);
+          this.userservice.adminEmailCheck(res.localId).then(res=>{
+
           loadingEl.dismiss();
           this.form.reset();
           this.showAlert('Success!','You are logged In');
-          this.navCtrl.navigateForward('/admin/users');
+          this.router.navigate(['/admin/users']);
+          // this.navCtrl.navigateForward('/admin/users');
+          },err=>{
+            loadingEl.dismiss();
+            this.showAlert('Failed!',err.message);
+          })
+
+          
       },(err)=>{
         loadingEl.dismiss();
         console.log('err',err);
