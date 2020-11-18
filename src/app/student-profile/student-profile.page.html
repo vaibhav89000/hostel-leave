@@ -82,7 +82,7 @@
                 (form.get('admissionNumber').dirty ||
                 form.get('admissionNumber').touched)
             }">
-              <ion-input placeholder="Enter Admission Number" formControlName="admissionNumber"></ion-input>
+              <ion-input placeholder="Enter Admission Number" disabled="true" formControlName="admissionNumber"></ion-input>
             </ion-item>
           </ion-col>
 
@@ -132,7 +132,7 @@
                 (form.get('hostel').dirty ||
                 form.get('hostel').touched)
             }">
-              <ion-select placeholder="Select One" formControlName="hostel">
+              <ion-select placeholder="Select One" formControlName="hostel" disabled="true">
                 <ion-select-option value="1">First</ion-select-option>
                 <ion-select-option value="2">Second</ion-select-option>
                 <ion-select-option value="3">Third</ion-select-option>
@@ -157,7 +157,7 @@
                 (form.get('roomNumber').dirty ||
                 form.get('roomNumber').touched)
             }">
-              <ion-input placeholder="Enter Room Number" formControlName="roomNumber"></ion-input>
+              <ion-input placeholder="Enter Room Number" disabled="true" formControlName="roomNumber"></ion-input>
             </ion-item>
           </ion-col>
 
@@ -181,7 +181,7 @@
                 (form.get('emailId').dirty ||
                 form.get('emailId').touched)
             }">
-              <ion-input placeholder="Select One" formControlName="emailId">
+              <ion-input placeholder="Enter emailId" disabled="true" formControlName="emailId">
               </ion-input>
             </ion-item>
           </ion-col>

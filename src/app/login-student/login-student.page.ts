@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, LoadingController, NavController } from '@ionic/angular';
 import {AuthserviceService} from '../services/authservice.service';
 import { UsersService } from '../services/users.service';
-
+import { Plugins } from '@capacitor/core';
 
 @Component({
   selector: 'app-login-student',
@@ -61,10 +61,10 @@ export class LoginStudentPage implements OnInit {
               password: this.form.get('password').value
             }
             // console.log('User',User);
-            this.authService.login(User,'Student').subscribe((res) =>{
-
-              this.errorMessage = "";
+            this.authService.login(User,'Student',user.admissionNumber).subscribe((res) =>{
               
+              this.errorMessage = "";
+              console.log('response',res);
               loadingEl.dismiss();
               this.form.reset();
               this.showAlert('Success!','You are logged In');

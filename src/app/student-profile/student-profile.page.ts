@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {UsersService} from '../services/users.service';
+import { Plugins } from '@capacitor/core';
+
 @Component({
   selector: 'app-student-profile',
   templateUrl: './student-profile.page.html',
@@ -10,9 +12,22 @@ export class StudentProfilePage implements OnInit {
 
   form: FormGroup;
   formsubmitted: any;
+  admissionNumber: any;
   constructor(private userService: UsersService) { }
 
   ngOnInit() {
+  
+  let storedData = Plugins.Storage.get({key: 'authData'})['__zone_symbol__value']
+  const parseData = JSON.parse(storedData.value) as {
+    userId: string;
+    token: string;
+    tokenExpirationDate: string;
+    email: string;
+    role: string;
+    admissionNumber: string;
+  }
+  // console.log('localstorage',parseData['admissionNumber']);
+  this.admissionNumber = parseData['admissionNumber'];
 
     this.formsubmitted = false;
 
@@ -32,11 +47,32 @@ export class StudentProfilePage implements OnInit {
   }
 
   fetchProfile(){
-      this.userService.getProfile()
+      this.userService.getProfile(this.admissionNumber)
+      .then((data)=>{
+
+        console.log('data',data);
+        if(data){
+          this.form.patchValue({
+            fullName: data['fullName'],
+            admissionNumber: data['admissionNumber'],
+            year: data['year'],
+            gender: data['gender'],
+            hostel: data['hostel'],
+            roomNumber: data['roomNumber'],
+            emailId: data['emailId'],
+            phoneNumber: data['phoneNumber']
+          });
+        }
+
+      },(err)=>{
+
+      })
   }
 
   update(){
     
   }
+
+ 
 
 }

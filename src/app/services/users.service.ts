@@ -84,19 +84,19 @@ export class UsersService {
   });
   }
 
-  getProfile(){
-    // return new Promise((resolve,reject)=>{
-    //   const dbRef = firebase.database().ref('/users/'+admissionNumber);
+  getProfile(admissionNumber){
+    return new Promise((resolve,reject)=>{
+      const dbRef = firebase.database().ref('/users/'+admissionNumber);
 
-    //   dbRef.once('value',(data)=>{
-    //     if(data.val()===null){
-    //       reject({'message': 'User with this admission number already exist.'});
-    //     }
-    //     else{
-    //       resolve(data.val());
-    //     }
-    //   })
-    // })
+      dbRef.once('value',(data)=>{
+        if(data.val()===null){
+          reject({'message': 'User with this admission number already exist.'});
+        }
+        else{
+          resolve(data.val());
+        }
+      })
+    })
   }
 
   signUp(emailId,password){

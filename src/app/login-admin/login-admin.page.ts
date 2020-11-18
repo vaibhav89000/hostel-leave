@@ -55,7 +55,7 @@ export class LoginAdminPage implements OnInit {
         loadingEl.present();
 
       
-      this.authService.login(value,'Admin').subscribe((res) =>{
+      this.authService.login(value,'Admin','admin').subscribe((res) =>{
           this.errorMessage = "";
           console.log(res);
           this.userservice.adminEmailCheck(res.localId).then(res=>{

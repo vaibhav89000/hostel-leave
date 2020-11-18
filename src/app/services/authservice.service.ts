@@ -27,6 +27,7 @@ export class AuthserviceService implements OnDestroy{
   private _user = new BehaviorSubject<User>(null);
   private activeLogoutTimer: any;
   role: any;
+  admissionNumber: any;
 
   constructor(private http: HttpClient) { 
     
@@ -74,9 +75,10 @@ export class AuthserviceService implements OnDestroy{
     } ));
   }
 
-  login(user,role){
+  login(user,role,admissionNumber){
     
     this.role = role;
+    this.admissionNumber=admissionNumber;
     return this.http.post<AuthResponseData>(
       `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.apiKey}`,
       {
@@ -118,7 +120,8 @@ export class AuthserviceService implements OnDestroy{
       userData.email,
        userData.idToken,
        expirationTime,
-       this.role)
+       this.role,
+       this.admissionNumber)
       //  console.log('user',user);
         this._user.next(user);
 
@@ -129,7 +132,8 @@ export class AuthserviceService implements OnDestroy{
                 userData.idToken,
                  expirationTime.toISOString(),
                  userData.email,
-                 this.role
+                 this.role,
+                 this.admissionNumber
              );
   }
 
@@ -145,7 +149,8 @@ export class AuthserviceService implements OnDestroy{
           token: string;
           tokenExpirationDate: string;
           email: string;
-          role: string
+          role: string;
+          admissionNumber: string;
         }
         const expirationTime = new Date(parseData.tokenExpirationDate);
         if(expirationTime <= new Date()){
@@ -156,7 +161,8 @@ export class AuthserviceService implements OnDestroy{
           parseData.email,
           parseData.token,
           expirationTime,
-          parseData.role
+          parseData.role,
+          parseData.admissionNumber
           );
           return user;
       }),
@@ -177,14 +183,16 @@ export class AuthserviceService implements OnDestroy{
     token: string,
     tokenExpirationDate: string,
     email: string,
-    role: string
+    role: string,
+    admissionNumber: string
   ){
     const data = JSON.stringify({
       userId: userId,
        token: token,
         tokenExpirationDate: tokenExpirationDate,
       email: email,
-      role: role
+      role: role,
+      admissionNumber: admissionNumber
     });
     Plugins.Storage.set({key : 'authData',value: data})
   };
