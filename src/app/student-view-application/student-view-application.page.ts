@@ -10,6 +10,8 @@ export class StudentViewApplicationPage implements OnInit {
   constructor() { }
 
   ngOnInit() {
+
+    console.log('student view application');
   }
 
 }

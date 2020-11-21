@@ -63,7 +63,7 @@ export class AuthGuardService implements CanActivate{
         // if(!isAuthenticated){
         //   this.router.navigate(['login-admin']);
         // }
-        console.log('i am in tap');
+        // console.log('i am in tap');
       }))
 
 }

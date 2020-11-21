@@ -149,6 +149,20 @@ export class UsersService {
   }
 
 
+  applicationRegister(application){
+    return new Promise((resolve, reject) => {
+      firebase.database().ref('application/').push({
+        ...application
+      }).then(()=>{
+        resolve();
+      }).catch((err)=>{
+        reject(err);
+      });
+
+  });
+  }
+
+
 
 
 
