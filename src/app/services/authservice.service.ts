@@ -217,4 +217,17 @@ export class AuthserviceService implements OnDestroy{
       ));
   }
 
+  resetPassword(email){
+    return new Promise((resolve,reject)=>{
+      console.log(email);
+      firebase.auth().sendPasswordResetEmail(email).then((newUser) => {
+        resolve("Email sent");
+  
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+    
+  }
+
 }
