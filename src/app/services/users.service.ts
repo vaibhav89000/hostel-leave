@@ -105,10 +105,10 @@ export class UsersService {
       .then(res =>{
         resolve();
       },err=>{
-        reject();
+        reject(err);
       })
       .catch(err=>{
-        reject();
+        reject(err);
       })
     })
   }
