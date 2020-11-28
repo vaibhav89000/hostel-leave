@@ -3,10 +3,52 @@
     <ion-buttons slot="start">
         <ion-menu-button menu="m1"></ion-menu-button>
     </ion-buttons>
-    <ion-title>Student View Application</ion-title>
+    <ion-title>Applications</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  
+  <ion-card class="card">
+    <ion-card-header>
+      Applications
+    </ion-card-header>
+
+    <ion-card-content>
+
+      <div class="table-responsive" >
+        <table id="example" class="table table-hover table-bordered border-top-0 border-bottom-0" style="width:100%">
+          <thead>
+            <tr class="border-bottom-0">
+              <th scope="col">#</th>
+              <th scope="col">Date Applied</th>
+              <th scope="col">Subject</th>
+              <th scope="col">From</th>
+              <th scope="col">To</th>
+              <th scope="col">Status</th>
+              <th scope="col">Edit</th>
+              <!-- <th scope="col">Action</th> -->
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let appli of userApplication; index as i">
+              <th scope="row">{{ i + 1 }}</th>
+              <td>{{ appli.dateApplied }}</td>
+              <td>{{ appli.subject }}</td>
+              <td>{{ appli.from}}</td>
+              <td>{{ appli.to}}</td>
+              <td>{{ appli.status}}</td>
+              <td><ion-icon name="pencil-sharp" (click)="editApplication(appli.ref)"></ion-icon></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+
+
+    </ion-card-content>
+  </ion-card>
+
+
 
 </ion-content>

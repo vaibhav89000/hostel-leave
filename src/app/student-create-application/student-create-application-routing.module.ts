@@ -7,6 +7,10 @@ const routes: Routes = [
   {
     path: '',
     component: StudentCreateApplicationPage
+  },
+  {
+    path: ':id',
+    component: StudentCreateApplicationPage
   }
 ];
 

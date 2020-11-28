@@ -50,7 +50,10 @@ export class RegisterPage implements OnInit {
           this.formset(User);
         }, (err) => {
           console.log(err);
+          this.router.navigate(['admin','register']);
         });
+      }else{
+        this.router.navigate(['admin','register']);
       }
     });
 

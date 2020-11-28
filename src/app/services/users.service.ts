@@ -149,9 +149,9 @@ export class UsersService {
   }
 
 
-  applicationRegister(application){
+  applicationRegister(application,id){
     return new Promise((resolve, reject) => {
-      firebase.database().ref('application/').push({
+      firebase.database().ref('application/'+id).push({
         ...application
       }).then(()=>{
         resolve();
@@ -163,6 +163,53 @@ export class UsersService {
   }
 
 
+  getStudentAppliactions(){
+    return new Promise((resolve, reject) => {
+      const dbRef = firebase.database().ref('/application');
+
+      dbRef.once('value',(data)=>{
+        if(data.val()===null){
+          reject({'message': 'No application found create one.'});
+        }
+        else{
+          console.log(data.val());
+          resolve(data.val());
+        }
+      })
+
+    })
+  }
+
+  getStudentAppliaction(id){
+    return new Promise((resolve, reject) => {
+      const dbRef = firebase.database().ref('/application/'+id);
+
+      dbRef.once('value',(data)=>{
+        if(data.val()===null){
+          reject({'message': 'No application found create one.'});
+        }
+        else{
+          console.log(data.val());
+          resolve(data.val());
+        }
+      })
+
+    })
+  }
+
+
+  updateApplication(application,id){
+    return new Promise((resolve, reject) => {
+      firebase.database().ref('application/').child(id).set({
+        ...application
+      }).then(()=>{
+        resolve();
+      }).catch((err)=>{
+        reject(err);
+      });
+
+  });
+  }
 
 
 
