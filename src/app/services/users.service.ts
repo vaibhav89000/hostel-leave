@@ -45,7 +45,7 @@ export class UsersService {
     return new Promise((resolve,reject)=>{
       const dbRef = firebase.database().ref('/users');
       dbRef.once('value',(data)=>{
-        // console.log(data.val());
+        // //console.log(data.val());
         if(data.val()===null){
           reject({'message': 'No User exist'});
         }
@@ -122,7 +122,7 @@ export class UsersService {
           reject({'message': 'User does not exist already exist.'});
         }
         else{
-          // console.log(data.val());
+          // //console.log(data.val());
           resolve(data.val());
         }
       })
@@ -140,7 +140,7 @@ export class UsersService {
           reject({'message': 'User does not exist.'});
         }
         else{
-          console.log(data.val());
+          //console.log(data.val());
           resolve(data.val());
         }
       })
@@ -149,9 +149,9 @@ export class UsersService {
   }
 
 
-  applicationRegister(application,id){
+  applicationRegister(application){
     return new Promise((resolve, reject) => {
-      firebase.database().ref('application/'+id).push({
+      firebase.database().ref('application/').push({
         ...application
       }).then(()=>{
         resolve();
@@ -172,7 +172,7 @@ export class UsersService {
           reject({'message': 'No application found create one.'});
         }
         else{
-          console.log(data.val());
+          //console.log(data.val());
           resolve(data.val());
         }
       })
@@ -189,7 +189,7 @@ export class UsersService {
           reject({'message': 'No application found create one.'});
         }
         else{
-          console.log(data.val());
+          //console.log(data.val());
           resolve(data.val());
         }
       })
