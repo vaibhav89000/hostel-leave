@@ -46,7 +46,8 @@ export class AppComponent implements OnInit, OnDestroy{
       if(role){
         this.pages = [
           { title: "Register", page: ['admin','register']},
-          { title: "User", page: ['admin','users']}
+          { title: "User", page: ['admin','users']},
+          { title: "View Application", page: ['admin','admin-view-application']}
         ];
       }
       else{

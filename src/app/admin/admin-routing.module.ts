@@ -30,6 +30,14 @@ const routes: Routes = [
       role: 'Admin'
     }
   },
+  {
+    path: 'admin-view-application',
+    loadChildren: () => import('../admin-view-application/admin-view-application.module').then( m => m.AdminViewApplicationPageModule),
+    canActivate:[AuthGuardService],
+    data: {
+      role: 'Admin'
+    }
+  },
 ];
 
 @NgModule({
