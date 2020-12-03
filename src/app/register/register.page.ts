@@ -93,12 +93,12 @@ export class RegisterPage implements OnInit {
     };
 
     this.loadingCtrl
-      .create({ keyboardClose: true, message: 'Creating new user...' })
+      .create({ keyboardClose: true, message: 'Updating user...' })
       .then(loadingEl => {
         loadingEl.present();
 
         if (this.id) {
-          this.userservice.signUp(formdata.emailId, formdata.admissionNumber).then(res => {
+          // this.userservice.signUp(formdata.emailId, formdata.admissionNumber).then(res => {
             this.userservice.editUser(formdata)
               .then(res => {
                 loadingEl.dismiss();
@@ -117,14 +117,14 @@ export class RegisterPage implements OnInit {
                 this.showAlert('Error', this.errorMessage);
                 this.successMessage = "";
               })
-          }, err => {
-            loadingEl.dismiss();
-            console.log(err);
-            console.log('email id is already used');
-            this.errorMessage = err.message;
-            this.showAlert('Error', this.errorMessage);
-            this.successMessage = "";
-          });
+          // }, err => {
+          //   loadingEl.dismiss();
+          //   console.log(err);
+          //   console.log('email id is already used');
+          //   this.errorMessage = err.message;
+          //   this.showAlert('Error', this.errorMessage);
+          //   this.successMessage = "";
+          // });
 
         }
         else {
