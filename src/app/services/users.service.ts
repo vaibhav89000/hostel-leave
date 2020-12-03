@@ -211,6 +211,18 @@ export class UsersService {
   });
   }
 
+  statusChange(id,application){
+    return new Promise((resolve,reject) => {
+      firebase.database().ref('application/').child(id).set({
+        ...application
+      }).then(()=>{
+        resolve();
+      }).catch((err)=>{
+        reject(err);
+      });
+    })
+  }
+
 
 
 }

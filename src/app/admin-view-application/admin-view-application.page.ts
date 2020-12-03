@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlertController, LoadingController, NavController } from '@ionic/angular';
+import { AlertController, LoadingController, ModalController, NavController } from '@ionic/angular';
 import { UsersService } from '../services/users.service';
 import { Plugins } from '@capacitor/core';
+import { StatusChangeComponent } from '../status-change/status-change.component';
 
 @Component({
   selector: 'app-admin-view-application',
@@ -14,6 +15,7 @@ export class AdminViewApplicationPage implements OnInit {
 
   userData: any;
   userApplication: any = [];
+  userApplication_asResponse: any = [];
 
   constructor(
     private loadingCtrl: LoadingController,
@@ -21,7 +23,8 @@ export class AdminViewApplicationPage implements OnInit {
     private userservice: UsersService,
     private navCtrl: NavController,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private modalCtrl: ModalController
   ) { }
 
   ngOnInit() {
@@ -38,12 +41,66 @@ export class AdminViewApplicationPage implements OnInit {
 
   }
 
-  viewApplication(id){
-    console.log('id',id);
+  viewApplication(id) {
+    
+    let Userapplication = {};
+
+    Object.keys(this.userApplication_asResponse).forEach(key => {
+      if (key === id) {
+        Userapplication = {...this.userApplication_asResponse[key]};
+        Userapplication['dateApplied'] = this.getTime(Userapplication['dateApplied']);
+        Userapplication['from'] = this.getTime(Userapplication['from']);
+        Userapplication['to'] = this.getTime(Userapplication['to']);
+
+      }
+    })
+
+    this.modalCtrl.create({
+      component: StatusChangeComponent,
+      componentProps: { selectedApplication: Userapplication }
+    })
+      .then(modalEl => {
+        modalEl.present();
+        return modalEl.onDidDismiss();
+      })
+      .then(resultdata => {
+
+        if (resultdata.role === 'confirm') {
+          this.loadingCtrl.create({ keyboardClose: true, message: 'Loading Applications' })
+            .then(loadinEl => {
+              loadinEl.present();
+              this.userApplication_asResponse[id]['status'] = resultdata.data['status'];
+              let status_label: any;
+              if (resultdata.data['status'] === 0) {
+                status_label = 'Hold';
+              }
+              if (resultdata.data['status'] === 1) {
+                status_label = 'Approved';
+              }
+              if (resultdata.data['status'] === 0) {
+                status_label = 'Declined';
+              }
+
+              this.userservice.statusChange(id, this.userApplication_asResponse[id])
+                .then(res => {
+                  loadinEl.dismiss();
+                  this.showAlert('Success', `Application status is changed to: ${status_label}`);
+                }, err => {
+                  loadinEl.dismiss();
+                  this.showAlert('Failed', `To change status to: ${status_label}` + 'because of' + err);
+                })
+            })
+
+        }
+        this.userApplication = [];
+        this.fetchApplication();
+
+      })
   }
 
-  ionViewDidEnter (){
+  ionViewDidEnter() {
     this.userApplication = [];
+    this.userApplication_asResponse = [];
     let storedData = Plugins.Storage.get({ key: 'authData' })['__zone_symbol__value']
     this.userData = JSON.parse(storedData.value) as {
       userId: string;
@@ -65,16 +122,17 @@ export class AdminViewApplicationPage implements OnInit {
 
         this.userservice.getStudentAppliactions().then((res) => {
           const applications = res;
+          this.userApplication_asResponse = applications;
           Object.keys(applications).forEach(key => {
             if (new Date(applications[key].from) >= new Date()) {
-              let status_of_application;              
-              if(applications[key].status === 0){
+              let status_of_application;
+              if (applications[key].status === 0) {
                 status_of_application = 'Hold';
               }
-              else if(applications[key].status === 1){
+              else if (applications[key].status === 1) {
                 status_of_application = 'Approved';
               }
-              else{
+              else {
                 status_of_application = 'Declined';
               }
               let application_obj = {
@@ -95,15 +153,24 @@ export class AdminViewApplicationPage implements OnInit {
       })
   }
 
-  getTime(date){
+  getTime(date) {
     // console.log(date);
     date = new Date(date);
     let yyyy = date.getFullYear();
-    let mm = date.getMonth()+1;
+    let mm = date.getMonth() + 1;
     let dd = date.getDate();
 
-    let gen_date = dd +'-'+ mm +'-'+ yyyy;
+    let gen_date = dd + '-' + mm + '-' + yyyy;
     return gen_date;
+  }
+
+  async showAlert(header: string, message: string) {
+    const alert = await this.alert.create({
+      header,
+      message,
+      buttons: ["OK"]
+    })
+    await alert.present()
   }
 
 }

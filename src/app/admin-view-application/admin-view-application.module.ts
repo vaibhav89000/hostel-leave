@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { AdminViewApplicationPageRoutingModule } from './admin-view-application-routing.module';
 
 import { AdminViewApplicationPage } from './admin-view-application.page';
+import { StatusChangeComponent } from '../status-change/status-change.component';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { AdminViewApplicationPage } from './admin-view-application.page';
     IonicModule,
     AdminViewApplicationPageRoutingModule
   ],
-  declarations: [AdminViewApplicationPage]
+  declarations: [AdminViewApplicationPage,StatusChangeComponent],
+  entryComponents: [StatusChangeComponent]
 })
 export class AdminViewApplicationPageModule {}

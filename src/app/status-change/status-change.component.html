@@ -1,0 +1,70 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>View</ion-title>
+    <ion-buttons slot="primary">
+      <ion-button (click)="onCancel()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-row>
+    <ion-col>
+      <ion-label *ngIf="selectedApplication.status == 0">Status: Hold</ion-label> 
+      <ion-label *ngIf="selectedApplication.status == 1">Status: Approved</ion-label> 
+      <ion-label *ngIf="selectedApplication.status == 2">Status: Declined</ion-label> 
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col>
+      <ion-label>Applied Date:</ion-label> {{selectedApplication.dateApplied}}
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col>
+      <ion-label>Subject:</ion-label> {{selectedApplication.subject}}
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col>
+      <ion-label>From Date:</ion-label> {{selectedApplication.from}}
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col>
+      <ion-label>To Date:</ion-label> {{selectedApplication.to}}
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col>
+      <ion-label>Description:</ion-label>
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col>
+      {{selectedApplication.description}}
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col>
+      <ion-button color="success" (click)="statusChange(selectedApplication.status)">Status Change</ion-button>
+    </ion-col>
+  </ion-row>
+
+</ion-content>
+
+
+<ion-footer>
+  <ion-toolbar>
+      <ion-button color="primary" (click)="Submit()">Submit</ion-button>
+  </ion-toolbar>
+</ion-footer>
