@@ -45,17 +45,17 @@ export class AppComponent implements OnInit, OnDestroy{
       this.role = role;
       if(role){
         this.pages = [
-          { title: "Register", page: ['admin','register']},
-          { title: "User", page: ['admin','users']},
-          { title: "View Application", page: ['admin','admin-view-application']}
+          { title: "Register", page: ['admin','register'], name: "person-add-sharp"},
+          { title: "User", page: ['admin','users'], name: "people-sharp"},
+          { title: "View Application", page: ['admin','admin-view-application'], name: "archive-sharp"}
         ];
       }
       else{
         console.log('checking');
         this.pages = [
-          { title: "View Application", page: ['student','student-view-application']},
-          { title: "Create Application", page: ['student','student-create-application']},
-          { title: "Profile", page: ['student','student-profile']}
+          { title: "View Application", page: ['student','student-view-application'], name: "checkmark-circle-outline"},
+          { title: "Create Application", page: ['student','student-create-application'], name: "checkmark-circle-outline"},
+          { title: "Profile", page: ['student','student-profile'], name: "checkmark-circle-outline"}
         ];
       }
     })

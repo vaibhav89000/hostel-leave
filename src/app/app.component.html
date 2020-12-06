@@ -1,7 +1,7 @@
 <ion-app>
   <ion-menu  side="start" menuId="m1" contentId="main">
       <ion-header>
-        <ion-toolbar>
+        <ion-toolbar color="primary">
           <ion-title>
               Hostel Leave
           </ion-title>
@@ -12,14 +12,14 @@
           <ion-list>
             <ion-menu-toggle menu="m1" *ngFor="let p of pages">
               <ion-item lines="none" [routerLink]="p.page">
-                <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>
+                <ion-icon [name]="p.name" slot="start" color="primary"></ion-icon>
                 <ion-label>{{p.title}}</ion-label>
               </ion-item>
             </ion-menu-toggle>
             
             <ion-menu-toggle menu="m1">
               <ion-item lines="none" button>
-                <ion-icon name="exit" slot="start"></ion-icon>
+                <ion-icon name="exit" slot="start" color="primary"></ion-icon>
                 <ion-label (click)="logout()">Logout</ion-label>
               </ion-item>
             </ion-menu-toggle>
