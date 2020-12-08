@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-buttons slot="start">
+    <ion-buttons slot="end">
         <ion-menu-button menu="m1"></ion-menu-button>
     </ion-buttons>
     <ion-title>Student Create Application</ion-title>
@@ -23,7 +23,7 @@
             </ion-col>
           </ion-row>
           <ion-row>
-            <ion-col>
+            <ion-col size="12" size-lg="6">
               <ion-item lines="none">
                 <ion-label>
                   Admission Number
@@ -44,7 +44,7 @@
               </ion-item>
             </ion-col>
   
-            <ion-col>
+            <ion-col size="12" size-lg="6">
               <ion-item lines="none">
                 <ion-label>
                   Email Id
@@ -69,7 +69,7 @@
   
           <ion-row>
             
-            <ion-col>
+            <ion-col size="12" size-lg="6">
               <ion-item lines="none">
                 <ion-label>
                   Phone Number
@@ -89,7 +89,7 @@
               </ion-item>
             </ion-col>
   
-            <ion-col>
+            <ion-col size="12" size-lg="6">
               <ion-item lines="none">
                 <ion-label>
                   Date of Applying
@@ -113,7 +113,7 @@
           </ion-row>
   
           <ion-row>
-            <ion-col>
+            <ion-col size="12" size-lg="6">
               <ion-item lines="none">
                 <ion-label>
                   From
@@ -133,7 +133,7 @@
               </ion-item>
             </ion-col>
   
-            <ion-col>
+            <ion-col size="12" size-lg="6">
               <ion-item lines="none">
                 <ion-label>
                   To
@@ -155,7 +155,7 @@
           </ion-row>
   
           <ion-row>
-            <ion-col>
+            <ion-col size="12" size-lg="6">
               <ion-item lines="none">
                 <ion-label>
                   Subject
@@ -177,7 +177,7 @@
           </ion-row>
 
           <ion-row>
-            <ion-col>
+            <ion-col size="12" size-lg="6">
               <ion-item lines="none">
                 <ion-label>
                   Description
@@ -202,7 +202,7 @@
           
 
           <ion-row>
-            <ion-col>
+            <ion-col size="12" size-lg="6">
               <ion-button *ngIf="existingApplication" type='submit' [disabled]="form.get('status').value !== 0">
                 Update Application
               </ion-button>
@@ -216,7 +216,7 @@
           </ion-row>
   
           <ion-row>
-            <ion-col>
+            <ion-col size="12" size-lg="6">
               <ion-label *ngIf="!this.form.valid && this.formsubmitted" color="danger">
                 Red marked fields are required.
               </ion-label>

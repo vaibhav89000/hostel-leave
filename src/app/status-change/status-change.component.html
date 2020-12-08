@@ -11,7 +11,7 @@
 
 <ion-content>
   <ion-row>
-    <ion-col>
+    <ion-col size="12" size-lg="6">
       <ion-label *ngIf="selectedApplication.status == 0">Status: Hold</ion-label> 
       <ion-label *ngIf="selectedApplication.status == 1">Status: Approved</ion-label> 
       <ion-label *ngIf="selectedApplication.status == 2">Status: Declined</ion-label> 
@@ -19,43 +19,43 @@
   </ion-row>
 
   <ion-row>
-    <ion-col>
+    <ion-col size="12" size-lg="6">
       <ion-label>Applied Date:</ion-label> {{selectedApplication.dateApplied}}
     </ion-col>
   </ion-row>
 
   <ion-row>
-    <ion-col>
+    <ion-col size="12" size-lg="6">
       <ion-label>Subject:</ion-label> {{selectedApplication.subject}}
     </ion-col>
   </ion-row>
 
   <ion-row>
-    <ion-col>
+    <ion-col size="12" size-lg="6">
       <ion-label>From Date:</ion-label> {{selectedApplication.from}}
     </ion-col>
   </ion-row>
 
   <ion-row>
-    <ion-col>
+    <ion-col size="12" size-lg="6">
       <ion-label>To Date:</ion-label> {{selectedApplication.to}}
     </ion-col>
   </ion-row>
 
   <ion-row>
-    <ion-col>
+    <ion-col size="12" size-lg="6">
       <ion-label>Description:</ion-label>
     </ion-col>
   </ion-row>
 
   <ion-row>
-    <ion-col>
+    <ion-col size="12" size-lg="6">
       {{selectedApplication.description}}
     </ion-col>
   </ion-row>
 
   <ion-row>
-    <ion-col>
+    <ion-col size="12" size-lg="6">
       <ion-button color="success" (click)="statusChange(selectedApplication.status)">Status Change</ion-button>
     </ion-col>
   </ion-row>

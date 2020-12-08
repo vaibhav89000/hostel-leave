@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-buttons slot="start">
+    <ion-buttons slot="end">
         <ion-menu-button menu="m1"></ion-menu-button>
     </ion-buttons>
     <ion-title>Applications</ion-title>
@@ -38,7 +38,7 @@
               <td>{{ appli.from}}</td>
               <td>{{ appli.to}}</td>
               <td>{{ appli.status}}</td>
-              <td><ion-icon name="pencil-sharp" (click)="editApplication(appli.ref)"></ion-icon></td>
+              <td><ion-icon name="pencil-sharp" (click)="editApplication(appli.ref)" color="success"></ion-icon></td>
             </tr>
           </tbody>
         </table>

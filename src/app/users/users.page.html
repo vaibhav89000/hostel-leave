@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-buttons slot="start">
+    <ion-buttons slot="end">
         <ion-menu-button menu="m1"></ion-menu-button>
     </ion-buttons>
     <ion-title>Users</ion-title>
@@ -39,7 +39,7 @@
               <td>{{ user.year}}</td>
               <td>{{ user.hostel}}</td>
               <td>{{ user.roomNumber}}</td>
-              <td><ion-icon name="pencil-sharp" (click)="editUser(user.admissionNumber)"></ion-icon></td>
+              <td><ion-icon name="pencil-sharp" (click)="editUser(user.admissionNumber)" color="success"></ion-icon></td>
             </tr>
           </tbody>
         </table>

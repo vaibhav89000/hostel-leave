@@ -1,14 +1,14 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, Observable, from } from "rxjs";
-import {map, tap} from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import firebase from 'firebase/app';
 import 'firebase/database';
 import { AngularFireAuth } from '@angular/fire/auth';
 import 'firebase/auth';
-import {HttpClient} from '@angular/common/http';
-import {User} from '../services/user.model';
+import { HttpClient } from '@angular/common/http';
+import { User } from '../services/user.model';
 import { Plugins } from '@capacitor/core';
-import {environment} from '../../environments/environment';
+import { environment } from '../../environments/environment';
 interface AuthResponseData {
   kind: string;
   idToken: string;
@@ -22,63 +22,61 @@ interface AuthResponseData {
 @Injectable({
   providedIn: 'root'
 })
-export class AuthserviceService implements OnDestroy{
+export class AuthserviceService implements OnDestroy {
 
   private _user = new BehaviorSubject<User>(null);
   private activeLogoutTimer: any;
   role: any;
   admissionNumber: any;
 
-  constructor(private http: HttpClient) { 
-    
+  constructor(private http: HttpClient) {
+
   }
 
   Rolecheck(expectedRole) {
-    return this._user.asObservable().pipe(map(user => 
-      {
-        // console.log('user',user);
-        if(user){
-          if(user['role'] && user['role'] !== expectedRole){
-            return false;
-          }
-          // console.log('user',user);
-          return !!user.token;
-        }
-        else{
+    return this._user.asObservable().pipe(map(user => {
+      // console.log('user',user);
+      if (user) {
+        if (user['role'] && user['role'] !== expectedRole) {
           return false;
         }
+        // console.log('user',user);
+        return !!user.token;
       }
-      ));
+      else {
+        return false;
+      }
+    }
+    ));
   }
 
   get userISAuthenticated() {
-    return this._user.asObservable().pipe(map(user => 
-      {
-        if(user){
-          return !!user.token;
-        }
-        else{
-          return false;
-        }
+    return this._user.asObservable().pipe(map(user => {
+      if (user) {
+        return !!user.token;
       }
-      ));
+      else {
+        return false;
+      }
+    }
+    ));
   }
 
   get userId() {
-    return this._user.asObservable().pipe(map(user =>{
-      if(user){
+    return this._user.asObservable().pipe(map(user => {
+      if (user) {
         return user.id;
       }
-      else{
+      else {
         return null;
       }
-    } ));
+    }));
   }
 
-  login(user,role,admissionNumber){
-    
+  login(user, role, admissionNumber) {
+
     this.role = role;
-    this.admissionNumber=admissionNumber;
+    this.admissionNumber = admissionNumber;
     return this.http.post<AuthResponseData>(
       `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.apiKey}`,
       {
@@ -88,60 +86,60 @@ export class AuthserviceService implements OnDestroy{
       }).pipe(tap(this.setUserData.bind(this)));
   }
 
-  logOut(){
+  logOut() {
     // this.userSubject.next(false);
-    if(this.activeLogoutTimer){
+    if (this.activeLogoutTimer) {
       clearTimeout(this.activeLogoutTimer);
     }
     this._user.next(null);
-    Plugins.Storage.remove({key: 'authData'})
+    Plugins.Storage.remove({ key: 'authData' })
   }
 
-  ngOnDestroy(){
-    if(this.activeLogoutTimer){
+  ngOnDestroy() {
+    if (this.activeLogoutTimer) {
       clearTimeout(this.activeLogoutTimer);
     }
   }
 
-  private autoLogout(duration: number){
-    if(this.activeLogoutTimer){
+  private autoLogout(duration: number) {
+    if (this.activeLogoutTimer) {
       clearTimeout(this.activeLogoutTimer);
     }
-    this.activeLogoutTimer = setTimeout(()=>{
+    this.activeLogoutTimer = setTimeout(() => {
       this.logOut();
-  },duration);
+    }, duration);
   }
 
-  private setUserData(userData: AuthResponseData){
-    
+  private setUserData(userData: AuthResponseData) {
+
     const expirationTime = new Date(new Date().getTime() + (+userData.expiresIn * 1000));
     const user = new User(
-      userData.localId, 
+      userData.localId,
       userData.email,
-       userData.idToken,
-       expirationTime,
-       this.role,
-       this.admissionNumber)
-      //  console.log('user',user);
-        this._user.next(user);
+      userData.idToken,
+      expirationTime,
+      this.role,
+      this.admissionNumber)
+    //  console.log('user',user);
+    this._user.next(user);
 
-             this.autoLogout(user.tokenDuration);
+    this.autoLogout(user.tokenDuration);
 
-             this.storeAuthData(
-               userData.localId,
-                userData.idToken,
-                 expirationTime.toISOString(),
-                 userData.email,
-                 this.role,
-                 this.admissionNumber
-             );
+    this.storeAuthData(
+      userData.localId,
+      userData.idToken,
+      expirationTime.toISOString(),
+      userData.email,
+      this.role,
+      this.admissionNumber
+    );
   }
 
 
   autoLogin() {
-    return from (Plugins.Storage.get({key: 'authData'})).pipe(
-      map(storedData=>{
-        if(!storedData || !storedData.value){
+    return from(Plugins.Storage.get({ key: 'authData' })).pipe(
+      map(storedData => {
+        if (!storedData || !storedData.value) {
           return null;
         }
         const parseData = JSON.parse(storedData.value) as {
@@ -153,7 +151,7 @@ export class AuthserviceService implements OnDestroy{
           admissionNumber: string;
         }
         const expirationTime = new Date(parseData.tokenExpirationDate);
-        if(expirationTime <= new Date()){
+        if (expirationTime <= new Date()) {
           return null;
         }
         const user = new User(
@@ -163,19 +161,19 @@ export class AuthserviceService implements OnDestroy{
           expirationTime,
           parseData.role,
           parseData.admissionNumber
-          );
-          return user;
+        );
+        return user;
       }),
       tap(user => {
-        if(user){
+        if (user) {
           this._user.next(user);
           this.autoLogout(user.tokenDuration);
         }
       }),
-      map(user =>{
+      map(user => {
         return !!user;
       })
-      );
+    );
   }
 
   private storeAuthData(
@@ -185,49 +183,48 @@ export class AuthserviceService implements OnDestroy{
     email: string,
     role: string,
     admissionNumber: string
-  ){
+  ) {
     const data = JSON.stringify({
       userId: userId,
-       token: token,
-        tokenExpirationDate: tokenExpirationDate,
+      token: token,
+      tokenExpirationDate: tokenExpirationDate,
       email: email,
       role: role,
       admissionNumber: admissionNumber
     });
-    Plugins.Storage.set({key : 'authData',value: data})
+    Plugins.Storage.set({ key: 'authData', value: data })
   };
 
-  
+
   get roleMenu() {
-    return this._user.asObservable().pipe(map(user => 
-      {
-        if(user){
-          if(user.role === 'Admin'){
-            return true;
-          }
-          else{
-            return false;
-          }
+    return this._user.asObservable().pipe(map(user => {
+      if (user) {
+        if (user.role === 'Admin') {
+          return true;
         }
-        else{
-          // console.log('check')
+        else {
           return false;
         }
       }
-      ));
+      else {
+        // console.log('check')
+        return false;
+      }
+    }
+    ));
   }
 
-  resetPassword(email){
-    return new Promise((resolve,reject)=>{
+  resetPassword(email) {
+    return new Promise((resolve, reject) => {
       console.log(email);
       firebase.auth().sendPasswordResetEmail(email).then((newUser) => {
         resolve("Email sent");
-  
+
       }).catch((error) => {
         reject(error);
       });
     });
-    
+
   }
 
 }

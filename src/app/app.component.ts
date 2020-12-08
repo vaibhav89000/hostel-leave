@@ -53,9 +53,9 @@ export class AppComponent implements OnInit, OnDestroy{
       else{
         console.log('checking');
         this.pages = [
-          { title: "View Application", page: ['student','student-view-application'], name: "checkmark-circle-outline"},
-          { title: "Create Application", page: ['student','student-create-application'], name: "checkmark-circle-outline"},
-          { title: "Profile", page: ['student','student-profile'], name: "checkmark-circle-outline"}
+          { title: "View Application", page: ['student','student-view-application'], name: "archive-sharp"},
+          { title: "Create Application", page: ['student','student-create-application'], name: "clipboard-sharp"},
+          { title: "Profile", page: ['student','student-profile'], name: "person-circle-sharp"}
         ];
       }
     })
