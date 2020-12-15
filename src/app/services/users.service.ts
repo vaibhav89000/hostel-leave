@@ -17,8 +17,8 @@ export class UsersService {
     return new Promise((resolve, reject) => {
         firebase.database().ref('users/').child(user.admissionNumber).set({
           ...user
-        }).then(()=>{
-          resolve();
+        }).then((res)=>{
+          resolve(res);
         }).catch((err)=>{
           reject(err);
         });
@@ -35,7 +35,7 @@ export class UsersService {
           reject({'message': 'User with this admission number already exist.'});
         }
         else{
-          resolve();
+          resolve(data.val());
         }
       })
     })
@@ -75,8 +75,8 @@ export class UsersService {
     return new Promise((resolve, reject) => {
       firebase.database().ref('users/').child(user.admissionNumber).set({
         ...user
-      }).then(()=>{
-        resolve();
+      }).then((res)=>{
+        resolve(res);
       }).catch((err)=>{
         reject(err);
       });
@@ -103,7 +103,7 @@ export class UsersService {
     return new Promise((resolve,reject)=>{
       firebase.auth().createUserWithEmailAndPassword(emailId, password)
       .then(res =>{
-        resolve();
+        resolve(res);
       },err=>{
         reject(err);
       })
@@ -153,8 +153,8 @@ export class UsersService {
     return new Promise((resolve, reject) => {
       firebase.database().ref('application/').push({
         ...application
-      }).then(()=>{
-        resolve();
+      }).then((res)=>{
+        resolve(res);
       }).catch((err)=>{
         reject(err);
       });
@@ -202,8 +202,8 @@ export class UsersService {
     return new Promise((resolve, reject) => {
       firebase.database().ref('application/').child(id).set({
         ...application
-      }).then(()=>{
-        resolve();
+      }).then((res)=>{
+        resolve(res);
       }).catch((err)=>{
         reject(err);
       });
@@ -215,8 +215,8 @@ export class UsersService {
     return new Promise((resolve,reject) => {
       firebase.database().ref('application/').child(id).set({
         ...application
-      }).then(()=>{
-        resolve();
+      }).then((res)=>{
+        resolve(res);
       }).catch((err)=>{
         reject(err);
       });

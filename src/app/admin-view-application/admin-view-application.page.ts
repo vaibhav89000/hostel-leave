@@ -77,7 +77,7 @@ export class AdminViewApplicationPage implements OnInit {
               if (resultdata.data['status'] === 1) {
                 status_label = 'Approved';
               }
-              if (resultdata.data['status'] === 0) {
+              if (resultdata.data['status'] === 2) {
                 status_label = 'Declined';
               }
 
@@ -122,6 +122,7 @@ export class AdminViewApplicationPage implements OnInit {
 
         this.userservice.getStudentAppliactions().then((res) => {
           const applications = res;
+          console.log('res',res);
           this.userApplication_asResponse = applications;
           Object.keys(applications).forEach(key => {
             if (new Date(applications[key].from) >= new Date()) {
@@ -137,7 +138,9 @@ export class AdminViewApplicationPage implements OnInit {
               }
               let application_obj = {
                 dateApplied: this.getTime(applications[key].dateApplied),
-                subject: applications[key].subject,
+                // subject: applications[key].subject,
+                admissionNumber: applications[key].admissionNumber,
+                emailId: applications[key].emailId,
                 from: this.getTime(applications[key].from),
                 to: this.getTime(applications[key].to),
                 status: status_of_application,
