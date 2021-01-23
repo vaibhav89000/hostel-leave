@@ -122,10 +122,15 @@ export class AdminViewApplicationPage implements OnInit {
 
         this.userservice.getStudentAppliactions().then((res) => {
           const applications = res;
-          console.log('res',res);
+          // console.log('res',res);
           this.userApplication_asResponse = applications;
+          let date = new Date();
+          // console.log(date.getDate());
           Object.keys(applications).forEach(key => {
-            if (new Date(applications[key].from) >= new Date()) {
+            let matchdate = new Date(applications[key].from);
+            if (matchdate.getDate() >= date.getDate()
+             && matchdate.getMonth() === date.getMonth() &&
+              matchdate.getFullYear() === date.getFullYear()) {
               let status_of_application;
               if (applications[key].status === 0) {
                 status_of_application = 'Hold';

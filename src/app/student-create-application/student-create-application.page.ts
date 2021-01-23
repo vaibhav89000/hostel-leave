@@ -39,15 +39,21 @@ export class StudentCreateApplicationPage implements OnInit {
     // To get todays date
     let currentTime = new Date();
 
-    let currentOffset = currentTime.getTimezoneOffset();
+    // let currentOffset = currentTime.getTimezoneOffset();
 
-    let ISTOffset = 330;   // IST offset UTC +5:30 
+    // let ISTOffset = 330;   // IST offset UTC +5:30 
 
-    let ISTTime = new Date(currentTime.getTime() + (ISTOffset + currentOffset)*60000);
-    let yyyy = ISTTime.getFullYear();
-    let mm = ISTTime.getMonth()+1;
-    let dd = ISTTime.getDate();
-    this.currentDate = yyyy+'-'+mm+'-'+dd;
+    // let ISTTime = new Date(currentTime.getTime() + (ISTOffset + currentOffset)*60000);
+    // let yyyy = ISTTime.getFullYear();
+    // let mm = ISTTime.getMonth()+1;
+    // let dd = ISTTime.getDate();
+    // this.currentDate = yyyy+'-'+mm+'-'+dd;
+    // console.log('this.currentDate',this.currentDate);
+
+    this.currentDate=this.formatDate(currentTime);
+    console.log('this.currentDate',this.currentDate);
+  // code for format date
+  
     
     let storedData = Plugins.Storage.get({key: 'authData'})['__zone_symbol__value']
     this.parseData = JSON.parse(storedData.value) as {
@@ -88,6 +94,17 @@ export class StudentCreateApplicationPage implements OnInit {
       }
     });
   }
+
+  formatDate(date) {
+    var d = new Date(date),
+    month = '' + (d.getMonth() + 1),
+    day = '' + d.getDate(),
+    year = d.getFullYear();
+    if (month.length < 2) month = '0' + month;
+        if (day.length < 2) day = '0' + day;
+    
+        return [year, month, day].join('-');
+    }
 
   formset(User) {
     //console.log(User);
