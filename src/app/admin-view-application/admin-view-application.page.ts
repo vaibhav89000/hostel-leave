@@ -42,12 +42,12 @@ export class AdminViewApplicationPage implements OnInit {
   }
 
   viewApplication(id) {
-    
+
     let Userapplication = {};
 
     Object.keys(this.userApplication_asResponse).forEach(key => {
       if (key === id) {
-        Userapplication = {...this.userApplication_asResponse[key]};
+        Userapplication = { ...this.userApplication_asResponse[key] };
         Userapplication['dateApplied'] = this.getTime(Userapplication['dateApplied']);
         Userapplication['from'] = this.getTime(Userapplication['from']);
         Userapplication['to'] = this.getTime(Userapplication['to']);
@@ -129,7 +129,7 @@ export class AdminViewApplicationPage implements OnInit {
           Object.keys(applications).forEach(key => {
             let matchdate = new Date(applications[key].from);
             if (matchdate.getDate() >= date.getDate()
-             && matchdate.getMonth() === date.getMonth() &&
+              && matchdate.getMonth() === date.getMonth() &&
               matchdate.getFullYear() === date.getFullYear()) {
               let status_of_application;
               if (applications[key].status === 0) {
@@ -163,13 +163,23 @@ export class AdminViewApplicationPage implements OnInit {
 
   getTime(date) {
     // console.log(date);
-    date = new Date(date);
-    let yyyy = date.getFullYear();
-    let mm = date.getMonth() + 1;
-    let dd = date.getDate();
+    // date = new Date(date);
+    // let yyyy = date.getFullYear();
+    // let mm = date.getMonth() + 1;
+    // let dd = date.getDate();
 
-    let gen_date = dd + '-' + mm + '-' + yyyy;
-    return gen_date;
+    // let gen_date = dd + '-' + mm + '-' + yyyy;
+    // return gen_date;
+
+    //changes 
+    var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [day, month, year].join('-');
   }
 
   async showAlert(header: string, message: string) {
