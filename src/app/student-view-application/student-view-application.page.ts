@@ -38,7 +38,7 @@ export class StudentViewApplicationPage implements OnInit {
     // this.fetchApplication();
   }
 
-  ionViewDidEnter (){
+  ionViewDidEnter() {
     this.userApplication = [];
     let storedData = Plugins.Storage.get({ key: 'authData' })['__zone_symbol__value']
     this.userData = JSON.parse(storedData.value) as {
@@ -62,16 +62,17 @@ export class StudentViewApplicationPage implements OnInit {
           const applications = res;
           Object.keys(applications).forEach(key => {
             if (applications[key].admissionNumber === this.userData.admissionNumber) {
-              let status_of_application;              
-              if(applications[key].status === 0){
+              let status_of_application;
+              if (applications[key].status === 0) {
                 status_of_application = 'Hold';
               }
-              else if(applications[key].status === 1){
+              else if (applications[key].status === 1) {
                 status_of_application = 'Approved';
               }
-              else{
+              else {
                 status_of_application = 'Declined';
               }
+              console.log('applications[key].dateApplied', applications[key].dateApplied)
               let application_obj = {
                 dateApplied: this.getTime(applications[key].dateApplied),
                 subject: applications[key].subject,
@@ -91,18 +92,27 @@ export class StudentViewApplicationPage implements OnInit {
   }
 
 
-  getTime(date){
+  getTime(date) {
     // console.log(date);
-    date = new Date(date);
-    let yyyy = date.getFullYear();
-    let mm = date.getMonth()+1;
-    let dd = date.getDate();
+    // date = new Date(date);
+    // let yyyy = date.getFullYear();
+    // let mm = date.getMonth()+1;
+    // let dd = date.getDate();
 
-    let gen_date = dd +'-'+ mm +'-'+ yyyy;
-    return gen_date;
+    // let gen_date = dd +'-'+ mm +'-'+ yyyy;
+    // return gen_date;
+
+    var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [day, month, year].join('-');
   }
 
-  editApplication(id){
-    this.router.navigate(['student','student-create-application',id]);
+  editApplication(id) {
+    this.router.navigate(['student', 'student-create-application', id]);
   }
 }
